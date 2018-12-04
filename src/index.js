@@ -24,7 +24,9 @@ module.exports = function (html, options) {
     options = object.assign({}, defaults, options);
     options.lowerCaseTags = false;
     options.lowerCaseAttributeNames = false;
-    return lib.parseDOM(html, options);
+    var ast = lib.parseDOM(html, options);
+    ast.html = html;
+    return ast;
 };
 
 

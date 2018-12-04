@@ -129,7 +129,7 @@ DomHandler.prototype.onopentag = function (name, attribs) {
     this._tagStack.push(element);
 };
 
-DomHandler.prototype.ontext = function (data) {
+DomHandler.prototype.ontext = function (value) {
     //the ignoreWhitespace is officially dropped, but for now,
     //it's an alias for normalizeWhitespace
     var normalize = this._options.normalizeWhitespace || this._options.ignoreWhitespace;
@@ -138,9 +138,10 @@ DomHandler.prototype.ontext = function (data) {
 
     if (!this._tagStack.length && this.dom.length && (lastTag = this.dom[this.dom.length - 1]).type === ElementType.Text) {
         if (normalize) {
-            lastTag.data = (lastTag.data + data).replace(re_whitespace, " ");
+            lastTag.value = (lastTag.value + value).replace(re_whitespace, " ");
         } else {
-            lastTag.data += data;
+            lastTag.value += value;
+            lastTag.end += value.length;
         }
     } else {
         if (
@@ -150,20 +151,21 @@ DomHandler.prototype.ontext = function (data) {
             lastTag.type === ElementType.Text
         ) {
             if (normalize) {
-                lastTag.data = (lastTag.data + data).replace(re_whitespace, " ");
+                lastTag.value = (lastTag.value + value).replace(re_whitespace, " ");
             } else {
-                lastTag.data += data;
+                lastTag.value += value;
+                lastTag.end += value.length;
             }
         } else {
             if (normalize) {
-                data = data.replace(re_whitespace, " ");
+                value = value.replace(re_whitespace, " ");
             }
 
             var element = this._createDomElement({
-                value: data,
+                value: value,
                 type: ElementType.Text,
                 start: this._parser.startIndex,
-                end: this._parser.startIndex + data.length
+                end: this._parser.startIndex + value.length
             });
 
             this._addDomElement(element);
@@ -171,16 +173,17 @@ DomHandler.prototype.ontext = function (data) {
     }
 };
 
-DomHandler.prototype.oncomment = function (data) {
+DomHandler.prototype.oncomment = function (value) {
     var lastTag = this._tagStack[this._tagStack.length - 1];
 
     if (lastTag && lastTag.type === ElementType.Comment) {
-        lastTag.data += data;
+        lastTag.value += value;
+        lastTag.end += value.length;
         return;
     }
 
     var properties = {
-        value: data,
+        value: value,
         type: ElementType.Comment,
         start: this._parser.startIndex,
         end: this._parser.endIndex + 1/*>*/
@@ -213,10 +216,10 @@ DomHandler.prototype.oncommentend = DomHandler.prototype.oncdataend = function (
     this._tagStack.pop();
 };
 
-DomHandler.prototype.onprocessinginstruction = function (name, data) {
+DomHandler.prototype.onprocessinginstruction = function (name, value) {
     var element = this._createDomElement({
         name: name,
-        value: data,
+        value: value,
         type: ElementType.Directive,
         start: this._parser.startIndex,
         end: this._parser._tokenizer._index + 1/*>*/

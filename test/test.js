@@ -48,5 +48,26 @@ describe('测试', function () {
             '</template>';
         var ast = parser(html);
     });
+
+    it('<script>', function () {
+        var html = '<script>\n' +
+            '// <a>a标签</a>\n' +
+            '/* 注释 */\n' +
+            '<!-- 注释 -->\n' +
+            'var abc = 1;\n' +
+            '</script>';
+        var ast = parser(html);
+    });
+
+    it('<style>', function () {
+        var html = '<style>\n' +
+            '/* 注释 */\n' +
+            '<!-- 注释 -->\n' +
+            'body {\n' +
+            '\t\tfont-size: 30px;\n' +
+            '}\n' +
+            '</style>';
+        var ast = parser(html);
+    });
 });
 

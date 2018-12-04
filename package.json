@@ -1,13 +1,14 @@
 {
-  "origin": {
-    "Name": "htmlparser2",
-    "Version": "3.10.0",
-    "author": "Felix Boehm <me@feedic.com>"
-  },
   "name": "coolie-parser-html",
-  "description": "Fast & forgiving HTML/XML/RSS parser",
+  "description": "coolie 解析器：html",
   "version": "1.0.0",
   "author": "cloudcome <cloudcome@163.com>",
+  "reference": {
+    "name": "htmlparser2",
+    "version": "3.10.0",
+    "author": "Felix Boehm <me@feedic.com>",
+    "license": "MIT"
+  },
   "keywords": [
     "html",
     "parser",
@@ -18,7 +19,8 @@
     "feed",
     "atom",
     "coolie",
-    "cloudcome"
+    "cloudcome",
+    "ydr.me"
   ],
   "repository": {
     "type": "git",
@@ -29,12 +31,11 @@
     "lcov": "istanbul cover _mocha --report lcovonly -- -R spec",
     "coveralls": "npm run lint && npm run lcov && (cat coverage/lcov.info | coveralls || exit 0)",
     "test": "mocha && npm run lint",
-    "lint": "eslint src test"
+    "lint": "eslint src"
   },
   "dependencies": {
     "blear.utils.object": "^1.0.14",
     "domelementtype": "^1.3.0",
-    "domhandler": "^2.3.0",
     "domutils": "^1.5.1",
     "entities": "^1.1.1",
     "inherits": "^2.0.1",

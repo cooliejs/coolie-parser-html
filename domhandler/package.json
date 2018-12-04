@@ -1,0 +1,6 @@
+{
+  "license": "BSD-2-Clause",
+  "main": "index.js",
+  "name": "domhandler",
+  "version": "2.4.2"
+}

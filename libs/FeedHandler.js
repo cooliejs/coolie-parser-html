@@ -47,7 +47,7 @@ FeedHandler.prototype.onend = function() {
             addConditionally(feed, "title", "title", childs);
             if (
                 (tmp = getOneElement("link", childs)) &&
-                (tmp = tmp.attribs) &&
+                (tmp = tmp.attrs) &&
                 (tmp = tmp.href)
             )
                 feed.link = tmp.value;
@@ -65,7 +65,7 @@ FeedHandler.prototype.onend = function() {
                 addConditionally(entry, "title", "title", item);
                 if (
                     (tmp = getOneElement("link", item)) &&
-                    (tmp = tmp.attribs) &&
+                    (tmp = tmp.attrs) &&
                     (tmp = tmp.href)
                 )
                     entry.link = tmp.value;

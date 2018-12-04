@@ -21,7 +21,10 @@
             "data": [
                 "h1",
                 {
-                    "class": "test"
+                    "class": {
+                        "value": "test",
+                        "quote": null
+                    }
                 }
             ]
         },

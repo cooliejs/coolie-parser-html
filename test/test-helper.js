@@ -1,4 +1,4 @@
-var htmlparser2 = require("..");
+var htmlparser2 = require("../libs/index");
 var fs = require("fs");
 var path = require("path");
 var assert = require("assert");

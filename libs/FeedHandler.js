@@ -50,7 +50,7 @@ FeedHandler.prototype.onend = function() {
                 (tmp = tmp.attribs) &&
                 (tmp = tmp.href)
             )
-                feed.link = tmp;
+                feed.link = tmp.value;
             addConditionally(feed, "description", "subtitle", childs);
             if ((tmp = fetch("updated", childs))) feed.updated = new Date(tmp);
             addConditionally(feed, "author", "email", childs, true);
@@ -68,7 +68,7 @@ FeedHandler.prototype.onend = function() {
                     (tmp = tmp.attribs) &&
                     (tmp = tmp.href)
                 )
-                    entry.link = tmp;
+                    entry.link = tmp.value;
                 if ((tmp = fetch("summary", item) || fetch("content", item)))
                     entry.description = tmp;
                 if ((tmp = fetch("updated", item)))

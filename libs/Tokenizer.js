@@ -288,7 +288,7 @@ Tokenizer.prototype._stateBeforeAttributeValue = function(c) {
 
 Tokenizer.prototype._stateInAttributeValueDoubleQuotes = function(c) {
     if (c === '"') {
-        this._emitToken("onattribdata");
+        this._emitToken("onattribdata", c);
         this._cbs.onattribend();
         this._state = BEFORE_ATTRIBUTE_NAME;
     } else if (this._decodeEntities && c === "&") {
@@ -301,7 +301,7 @@ Tokenizer.prototype._stateInAttributeValueDoubleQuotes = function(c) {
 
 Tokenizer.prototype._stateInAttributeValueSingleQuotes = function(c) {
     if (c === "'") {
-        this._emitToken("onattribdata");
+        this._emitToken("onattribdata", c);
         this._cbs.onattribend();
         this._state = BEFORE_ATTRIBUTE_NAME;
     } else if (this._decodeEntities && c === "&") {
@@ -314,7 +314,7 @@ Tokenizer.prototype._stateInAttributeValueSingleQuotes = function(c) {
 
 Tokenizer.prototype._stateInAttributeValueNoQuotes = function(c) {
     if (whitespace(c) || c === ">") {
-        this._emitToken("onattribdata");
+        this._emitToken("onattribdata", null);
         this._cbs.onattribend();
         this._state = BEFORE_ATTRIBUTE_NAME;
         this._index--;
@@ -956,8 +956,8 @@ Tokenizer.prototype._getSection = function() {
     return this._buffer.substring(this._sectionStart, this._index);
 };
 
-Tokenizer.prototype._emitToken = function(name) {
-    this._cbs[name](this._getSection());
+Tokenizer.prototype._emitToken = function(name, data) {
+    this._cbs[name](this._getSection(), data);
     this._sectionStart = -1;
 };
 

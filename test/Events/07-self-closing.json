@@ -19,7 +19,10 @@
             "data": [
                 "a",
                 {
-                    "href": "http://test.com/"
+                    "href": {
+                        "value": "http://test.com/",
+                        "quote": null
+                    }
                 }
             ]
         },

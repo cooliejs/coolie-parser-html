@@ -27,7 +27,10 @@
             "data": [
                 "script",
                 {
-                    "type": "text/template"
+                    "type": {
+                        "value": "text/template",
+                        "quote": "\""
+                    }
                 }
             ]
         },

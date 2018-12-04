@@ -31,10 +31,22 @@
             "data": [
                 "foo",
                 {
-                    "bar": "&",
-                    "baz": "&",
-                    "boo": "&",
-                    "noo": ""
+                    "bar": {
+                        "value": "&",
+                        "quote": null
+                    },
+                    "baz": {
+                        "value": "&",
+                        "quote": "\""
+                    },
+                    "boo": {
+                        "value": "&",
+                        "quote": "'"
+                    },
+                    "noo": {
+                        "value": "",
+                        "quote": null
+                    }
                 }
             ]
         },

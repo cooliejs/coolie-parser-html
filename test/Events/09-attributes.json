@@ -20,7 +20,7 @@
         },
         {
             "event": "attribute",
-            "data": ["disabled", ""]
+            "data": ["disabled", null]
         },
         {
             "event": "attribute",
@@ -31,10 +31,22 @@
             "data": [
                 "button",
                 {
-                    "class": "test0",
-                    "title": "test1",
-                    "disabled": "",
-                    "value": "test2"
+                    "class": {
+                        "value": "test0",
+                        "quote": "\""
+                    },
+                    "title": {
+                        "value": "test1",
+                        "quote": "\""
+                    },
+                    "disabled": {
+                        "value": null,
+                        "quote": null
+                    },
+                    "value": {
+                        "value": "test2",
+                        "quote": null
+                    }
                 }
             ]
         },

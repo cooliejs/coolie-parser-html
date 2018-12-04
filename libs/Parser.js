@@ -34,26 +34,26 @@ var formTags = {
 };
 
 var openImpliesClose = {
-    tr: { tr: true, th: true, td: true },
-    th: { th: true },
-    td: { thead: true, th: true, td: true },
-    body: { head: true, link: true, script: true },
-    li: { li: true },
-    p: { p: true },
-    h1: { p: true },
-    h2: { p: true },
-    h3: { p: true },
-    h4: { p: true },
-    h5: { p: true },
-    h6: { p: true },
+    tr: {tr: true, th: true, td: true},
+    th: {th: true},
+    td: {thead: true, th: true, td: true},
+    body: {head: true, link: true, script: true},
+    li: {li: true},
+    p: {p: true},
+    h1: {p: true},
+    h2: {p: true},
+    h3: {p: true},
+    h4: {p: true},
+    h5: {p: true},
+    h6: {p: true},
     select: formTags,
     input: formTags,
     output: formTags,
     button: formTags,
     datalist: formTags,
     textarea: formTags,
-    option: { option: true },
-    optgroup: { optgroup: true }
+    option: {option: true},
+    optgroup: {optgroup: true}
 };
 
 var voidElements = {
@@ -105,7 +105,8 @@ function Parser(cbs, options) {
 
     this._tagname = "";
     this._attribname = "";
-    this._attribvalue = "";
+    this._attribvalue = null;
+    this._attribQuote = null;
     this._attribs = null;
     this._stack = [];
     this._foreignContext = [];
@@ -132,7 +133,7 @@ function Parser(cbs, options) {
 
 require("inherits")(Parser, require("events").EventEmitter);
 
-Parser.prototype._updatePosition = function(initialOffset) {
+Parser.prototype._updatePosition = function (initialOffset) {
     if (this.endIndex === null) {
         if (this._tokenizer._sectionStart <= initialOffset) {
             this.startIndex = 0;
@@ -144,14 +145,14 @@ Parser.prototype._updatePosition = function(initialOffset) {
 };
 
 //Tokenizer event handlers
-Parser.prototype.ontext = function(data) {
+Parser.prototype.ontext = function (data) {
     this._updatePosition(1);
     this.endIndex--;
 
     if (this._cbs.ontext) this._cbs.ontext(data);
 };
 
-Parser.prototype.onopentagname = function(name) {
+Parser.prototype.onopentagname = function (name) {
     if (this._lowerCaseTagNames) {
         name = name.toLowerCase();
     }
@@ -164,7 +165,7 @@ Parser.prototype.onopentagname = function(name) {
             (el = this._stack[this._stack.length - 1]) in
             openImpliesClose[name];
             this.onclosetag(el)
-        );
+        ) ;
     }
 
     if (this._options.xmlMode || !(name in voidElements)) {
@@ -178,7 +179,7 @@ Parser.prototype.onopentagname = function(name) {
     if (this._cbs.onopentag) this._attribs = {};
 };
 
-Parser.prototype.onopentagend = function() {
+Parser.prototype.onopentagend = function () {
     this._updatePosition(1);
 
     if (this._attribs) {
@@ -198,7 +199,7 @@ Parser.prototype.onopentagend = function() {
     this._tagname = "";
 };
 
-Parser.prototype.onclosetag = function(name) {
+Parser.prototype.onclosetag = function (name) {
     this._updatePosition(1);
 
     if (this._lowerCaseTagNames) {
@@ -225,7 +226,7 @@ Parser.prototype.onclosetag = function(name) {
     }
 };
 
-Parser.prototype.onselfclosingtag = function() {
+Parser.prototype.onselfclosingtag = function () {
     if (
         this._options.xmlMode ||
         this._options.recognizeSelfClosing ||
@@ -237,7 +238,7 @@ Parser.prototype.onselfclosingtag = function() {
     }
 };
 
-Parser.prototype._closeCurrentTag = function() {
+Parser.prototype._closeCurrentTag = function () {
     var name = this._tagname;
 
     this.onopentagend();
@@ -255,31 +256,40 @@ Parser.prototype._closeCurrentTag = function() {
     }
 };
 
-Parser.prototype.onattribname = function(name) {
+Parser.prototype.onattribname = function (name) {
     if (this._lowerCaseAttributeNames) {
         name = name.toLowerCase();
     }
     this._attribname = name;
 };
 
-Parser.prototype.onattribdata = function(value) {
+Parser.prototype.onattribdata = function (value, quote) {
+    if (this._attribvalue === null) {
+        this._attribvalue = '';
+    }
+
     this._attribvalue += value;
+    this._attribQuote = quote;
 };
 
-Parser.prototype.onattribend = function() {
+Parser.prototype.onattribend = function () {
     if (this._cbs.onattribute)
         this._cbs.onattribute(this._attribname, this._attribvalue);
     if (
         this._attribs &&
         !Object.prototype.hasOwnProperty.call(this._attribs, this._attribname)
     ) {
-        this._attribs[this._attribname] = this._attribvalue;
+        this._attribs[this._attribname] = {
+            value: this._attribvalue,
+            quote: this._attribQuote
+        };
     }
     this._attribname = "";
-    this._attribvalue = "";
+    this._attribvalue = null;
+    this._attribQuote = null;
 };
 
-Parser.prototype._getInstructionName = function(value) {
+Parser.prototype._getInstructionName = function (value) {
     var idx = value.search(re_nameEnd),
         name = idx < 0 ? value : value.substr(0, idx);
 
@@ -290,28 +300,28 @@ Parser.prototype._getInstructionName = function(value) {
     return name;
 };
 
-Parser.prototype.ondeclaration = function(value) {
+Parser.prototype.ondeclaration = function (value) {
     if (this._cbs.onprocessinginstruction) {
         var name = this._getInstructionName(value);
         this._cbs.onprocessinginstruction("!" + name, "!" + value);
     }
 };
 
-Parser.prototype.onprocessinginstruction = function(value) {
+Parser.prototype.onprocessinginstruction = function (value) {
     if (this._cbs.onprocessinginstruction) {
         var name = this._getInstructionName(value);
         this._cbs.onprocessinginstruction("?" + name, "?" + value);
     }
 };
 
-Parser.prototype.oncomment = function(value) {
+Parser.prototype.oncomment = function (value) {
     this._updatePosition(4);
 
     if (this._cbs.oncomment) this._cbs.oncomment(value);
     if (this._cbs.oncommentend) this._cbs.oncommentend();
 };
 
-Parser.prototype.oncdata = function(value) {
+Parser.prototype.oncdata = function (value) {
     this._updatePosition(1);
 
     if (this._options.xmlMode || this._options.recognizeCDATA) {
@@ -323,23 +333,23 @@ Parser.prototype.oncdata = function(value) {
     }
 };
 
-Parser.prototype.onerror = function(err) {
+Parser.prototype.onerror = function (err) {
     if (this._cbs.onerror) this._cbs.onerror(err);
 };
 
-Parser.prototype.onend = function() {
+Parser.prototype.onend = function () {
     if (this._cbs.onclosetag) {
         for (
             var i = this._stack.length;
             i > 0;
             this._cbs.onclosetag(this._stack[--i])
-        );
+        ) ;
     }
     if (this._cbs.onend) this._cbs.onend();
 };
 
 //Resets the parser to a blank state, ready to parse a new HTML document
-Parser.prototype.reset = function() {
+Parser.prototype.reset = function () {
     if (this._cbs.onreset) this._cbs.onreset();
     this._tokenizer.reset();
 
@@ -352,24 +362,24 @@ Parser.prototype.reset = function() {
 };
 
 //Parses a complete HTML document and pushes it to the handler
-Parser.prototype.parseComplete = function(data) {
+Parser.prototype.parseComplete = function (data) {
     this.reset();
     this.end(data);
 };
 
-Parser.prototype.write = function(chunk) {
+Parser.prototype.write = function (chunk) {
     this._tokenizer.write(chunk);
 };
 
-Parser.prototype.end = function(chunk) {
+Parser.prototype.end = function (chunk) {
     this._tokenizer.end(chunk);
 };
 
-Parser.prototype.pause = function() {
+Parser.prototype.pause = function () {
     this._tokenizer.pause();
 };
 
-Parser.prototype.resume = function() {
+Parser.prototype.resume = function () {
     this._tokenizer.resume();
 };
 

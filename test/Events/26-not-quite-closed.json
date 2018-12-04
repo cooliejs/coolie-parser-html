@@ -9,14 +9,17 @@
         },
         {
             "event": "attribute",
-            "data": ["bar", ""]
+            "data": ["bar", null]
         },
         {
             "event": "opentag",
             "data": [
                 "foo",
                 {
-                    "bar": ""
+                    "bar": {
+                        "value": null,
+                        "quote": null
+                    }
                 }
             ]
         },

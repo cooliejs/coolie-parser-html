@@ -36,7 +36,10 @@
             "data": [
                 "feed",
                 {
-                    "xmlns": "http://www.w3.org/2005/Atom"
+                    "xmlns": {
+                        "value": "http://www.w3.org/2005/Atom",
+                        "quote": "\""
+                    }
                 }
             ]
         },
@@ -101,8 +104,14 @@
             "data": [
                 "link",
                 {
-                    "href": "http://example.org/feed/",
-                    "rel": "self"
+                    "href": {
+                        "value":"http://example.org/feed/",
+                        "quote": "\""
+                    },
+                    "rel": {
+                        "value": "self",
+                        "quote": "\""
+                    }
                 }
             ]
         },
@@ -127,7 +136,10 @@
             "data": [
                 "link",
                 {
-                    "href": "http://example.org/"
+                    "href": {
+                        "value":"http://example.org/",
+                        "quote": "\""
+                    }
                 }
             ]
         },
@@ -284,7 +296,10 @@
             "data": [
                 "link",
                 {
-                    "href": "http://example.org/2003/12/13/atom03"
+                    "href": {
+                        "value": "http://example.org/2003/12/13/atom03",
+                        "quote": "\""
+                    }
                 }
             ]
         },
@@ -317,9 +332,18 @@
             "data": [
                 "link",
                 {
-                    "rel": "alternate",
-                    "type": "text/html",
-                    "href": "http://example.org/2003/12/13/atom03.html"
+                    "rel": {
+                        "value": "alternate",
+                        "quote": "\""
+                    },
+                    "type": {
+                        "value": "text/html",
+                        "quote": "\""
+                    },
+                    "href": {
+                        "value": "http://example.org/2003/12/13/atom03.html",
+                        "quote": "\""
+                    }
                 }
             ]
         },
@@ -348,8 +372,14 @@
             "data": [
                 "link",
                 {
-                    "rel": "edit",
-                    "href": "http://example.org/2003/12/13/atom03/edit"
+                    "rel": {
+                        "value": "edit",
+                        "quote": "\""
+                    },
+                    "href": {
+                        "value": "http://example.org/2003/12/13/atom03/edit",
+                        "quote": "\""
+                    }
                 }
             ]
         },
@@ -414,7 +444,10 @@
             "data": [
                 "content",
                 {
-                    "type": "html"
+                    "type": {
+                        "value": "html",
+                        "quote": "\""
+                    }
                 }
             ]
         },

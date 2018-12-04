@@ -1,5 +1,5 @@
 var helper = require("./test-helper.js");
-var Stream = require("..").WritableStream;
+var Stream = require("../libs/index").WritableStream;
 var fs = require("fs");
 var path = require("path");
 

@@ -1,4 +1,4 @@
-var htmlparser2 = require("../libs/index");
+var htmlparser2 = require("../htmlparser2/index");
 var assert = require("assert");
 
 describe("WritableStream", function() {

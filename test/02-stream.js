@@ -1,5 +1,5 @@
 var helper = require("./test-helper.js");
-var Stream = require("../libs/index").WritableStream;
+var Stream = require("../htmlparser2/index").WritableStream;
 var fs = require("fs");
 var path = require("path");
 

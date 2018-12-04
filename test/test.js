@@ -29,6 +29,10 @@ describe('测试', function () {
         var html = '' +
             '<!-- 单行注释 -->' +
             '<!-- 多\n行\n注\n释 -->' +
+            '<!-- coolie -->' +
+            'hello' +
+            '<link href="style.css">' +
+            '<!-- /coolie -->' +
             '';
         var ast = parser(html);
     });

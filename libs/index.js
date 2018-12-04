@@ -12,9 +12,6 @@ module.exports = {
     Tokenizer: require("./Tokenizer.js"),
     ElementType: require("domelementtype"),
     DomHandler: DomHandler,
-    get FeedHandler() {
-        return defineProp("FeedHandler", require("./FeedHandler.js"));
-    },
     get Stream() {
         return defineProp("Stream", require("./Stream.js"));
     },
@@ -35,9 +32,6 @@ module.exports = {
     },
     // For legacy support
     DefaultHandler: DomHandler,
-    get RssHandler() {
-        return defineProp("RssHandler", this.FeedHandler);
-    },
     //helper methods
     parseDOM: function(data, options) {
         var handler = new DomHandler(options);

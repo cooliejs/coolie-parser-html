@@ -160,7 +160,7 @@ DomHandler.prototype.ontext = function (data) {
             }
 
             var element = this._createDomElement({
-                data: data,
+                value: data,
                 type: ElementType.Text,
                 start: this._parser.startIndex,
                 end: this._parser.startIndex + data.length
@@ -180,7 +180,7 @@ DomHandler.prototype.oncomment = function (data) {
     }
 
     var properties = {
-        data: data,
+        value: data,
         type: ElementType.Comment,
         start: this._parser.startIndex,
         end: this._parser.endIndex + 1/*>*/
@@ -195,7 +195,7 @@ DomHandler.prototype.oncomment = function (data) {
 DomHandler.prototype.oncdatastart = function () {
     var properties = {
         children: [{
-            data: "",
+            value: "",
             type: ElementType.Text
         }],
         type: ElementType.CDATA,
@@ -216,7 +216,7 @@ DomHandler.prototype.oncommentend = DomHandler.prototype.oncdataend = function (
 DomHandler.prototype.onprocessinginstruction = function (name, data) {
     var element = this._createDomElement({
         name: name,
-        data: data,
+        value: data,
         type: ElementType.Directive,
         start: this._parser.startIndex,
         end: this._parser._tokenizer._index + 1/*>*/

@@ -10,7 +10,7 @@
 
 var object = require('blear.utils.object');
 
-var lib = require('../libs/index')
+var lib = require('../libs/index');
 
 var defaults = {};
 
